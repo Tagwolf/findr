@@ -2,146 +2,20 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Findr - Profil</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.0/bundles/skinview3d.bundle.min.js" type="2f0c28117a679e435022c2e2-text/javascript"></script>
-    <script src="https://unpkg.com/virtual-scroll-list" type="2f0c28117a679e435022c2e2-text/javascript"></script>
-    <script src="console.js" defer type="2f0c28117a679e435022c2e2-text/javascript"></script>
-    <script src="script.js" defer type="2f0c28117a679e435022c2e2-text/javascript"></script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DWDFHDJ4R3" type="2f0c28117a679e435022c2e2-text/javascript"></script>
-<script type="2f0c28117a679e435022c2e2-text/javascript">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-DWDFHDJ4R3');
-</script>
-
-<script type="2f0c28117a679e435022c2e2-module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Findr-Profil</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
-<style>
-.views {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.1rem;
-    color: #666;
-}
-
-.visitor-count {
-    font-weight: bold;
-}
-
-ion-icon {
-    font-size: 1.2rem;
-}
-</style>
-
 <body>
-    <div style="display: flex; flex-direction: column; min-height: 100vh;">
-        <div class="container-profil-wrapper"></div>
-        <div class="container-profil2">
-            <a href="/findr/">
-                <img src="https://i.ibb.co/k0TcbnJ/minecraft-title-8.png" alt="Findr" class="logo">
-            </a>
-            <div class="search-container">
-                <input type="text" id="playerInput" placeholder="Minecraft-Namen suchen..." maxlength="16">
-                <button onclick="if (!window.__cfRLUnblockHandlers) return false; searchPlayer()" data-cf-modified-2f0c28117a679e435022c2e2-="">Suchen</button>
-            </div>
-        </div>
-
-
-
-        <div class="container-profil">
-
-            <div class="profil">
-                <div class="skin-render">
-                    <img id="skinImage" alt="Laden...">
-                </div>
-                <div class="message-container">
-                    <div class="player-header">
-                        <h2 id="playerName">Spielername</h2>
-                        <div class="views">
-                            <span class="visitor-count">0</span>
-                        <ion-icon name="eye-outline"></ion-icon>
-                        </div>
-                        <div class="status-container">
-                            <div class="status-item">
-                                <span class="bold">Scammer</span>
-                                <div class="status-indicator scammer-no" id="scammerStatus">
-                                    <span class="tooltip">
-                                        Quelle: <a href="https://raw.githubusercontent.com/CommunityRadarGG/CommunityRadar_Lists/refs/heads/main/versions/v2/scammer.json" target="_blank">Community Radar Liste</a>
-                                        <br>
-                                        Community Radar:
-                                        <br>
-                                        <a href="https://community-radar.de/" target="_blank">Website</a>
-                                        <br>
-                                        <a href="https://discord.community-radar.de" target="_blank">Discord Server</a>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="status-item">
-                                <span class="bold">MM</span>
-                                <div class="status-indicator mm-no" id="mmStatus">
-                                    <span class="tooltip">
-                                        Quelle: <a href="https://raw.githubusercontent.com/CommunityRadarGG/CommunityRadar_Lists/refs/heads/main/versions/v2/trusted.json" target="_blank">CommunityRadar</a>
-                                        <br>
-                                        Community Radar:
-                                        <br>
-                                        <a href="https://community-radar.de/" target="_blank">Website</a>
-                                        <br>
-                                        <a href="https://discord.community-radar.de" target="_blank">Discord Server</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-
-                    <div class="badges-area" id="badgesArea"></div>
-                        <div class="verification-notification" id="verificationNotification" style="display: none;">
-       <div class="verification-content">
-          <span id="verificationMessage">Bist du <span id="playerNameVerify">Spielername</span>?</span>
-          <a href="https://zeppelino.de/findr/verify" class="verify-button" style="text-decoration: none;">Profil verifizieren</a>
-         </div>
-    </div>
-                    <div class="search-bar">
-                        <input type="text" id="messageSearch" placeholder="Nachrichten durchsuchen..." oninput="if (!window.__cfRLUnblockHandlers) return false; searchMessage()" data-cf-modified-2f0c28117a679e435022c2e2-="">
-                    </div>               
-                    <div class="message">
-                        <div class="info-text">
-                            <span class="info-icon">ℹ</span>
-                            <span class="info-content">Cloud-Nachrichten</span>
-                        </div>
-                        <div id="virtualScroller" style="height: 500px; overflow-y: auto;">
-                            <div id="playerMessage"></div>
-                        </div>
-                    </div>
-    
-                </div>
-
-            </div>
-            <div class="name-history">
-                <h3>Frühere Namen</h3>
-                <div class="info-text">
-                    <span class="info-icon">ℹ</span>
-                    <span class="info-content">Tracking ab erster Cloud Chat Nachricht.</span>
-                </div>
-                <div class="name-history-list" id="nameHistoryList">
-
-                </div>
-            </div>
-        </div>
-        <div class="below-profile-footer">
-            <p>Findr gilt nicht als Beweis. Bitte erstelle Chatlogs mit GrieferGames Funktionen</p>
-            <p>© 2025 zeppelino.de - Alle Rechte vorbehalten | <a href="https://zeppelino.de/impressum">Impressum</a> & <a href="https://zeppelino.de/datenschutz">Datenschutz</a></p>
-        </div>
-    </div>
-<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="2f0c28117a679e435022c2e2-|49" defer></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"954a022f6b6b18c0","version":"2025.6.2","r":1,"token":"d72eb1db68084364a641650bd7092471","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
+  <div class="container">
+    <h1 id="player-name">Profil: LegitBlock</h1>
+    <canvas id="skin-canvas"></canvas>
+    <div id="badges"></div>
+    <p>Login-Streak: <span id="streak">0</span> Tage 🔥</p>
+    <button onclick="resetStreak()">Streak zurücksetzen</button>
+  </div>
+  <script src="assets/skinview3d.min.js"></script>
+  <script src="main.js"></script>
 </body>
-
 </html>
