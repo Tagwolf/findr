@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Findr - Profil</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .logo {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .logo img {
+      width: 200px;
+    }
+    .search-bar {
+      text-align: center;
+      margin: 20px;
+    }
+    .search-bar input {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+    .search-bar button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3c3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+    .profile, .history {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 10px;
+    }
+    .profile img {
+      width: 120px;
+      height: 240px;
+    }
+    .button {
+      background-color: #3c3;
+      padding: 10px;
+      margin-top: 10px;
+      display: inline-block;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .status {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .status label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .streak {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #ff9933;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <img src="findr_logo.png" alt="Findr Logo">
+  </div>
+  <div class="search-bar">
+    <input type="text" placeholder="Minecraft-Namen suchen...">
+    <button>Suchen</button>
+  </div>
+  <div class="container">
+    <div class="profile">
+      <img id="skin" src="skins/CuzImjasoon.png" alt="Skin">
+      <h2>CuzImjasoon</h2>
+      <div class="streak" id="streak">🔥 Streak: ...</div>
+      <div class="status">
+        <label><input type="checkbox"> Scammer</label>
+        <label><input type="checkbox"> MM</label>
+      </div>
+      <div class="button">Profil verifizieren</div>
+      <input type="text" placeholder="Nachrichten durchsuchen..." style="margin-top:10px; width:100%;">
+    </div>
+    <div class="history">
+      <h3>Frühere Namen</h3>
+      <p>Keine Namenshistorie verfügbar</p>
+    </div>
+  </div>
+  <script>
+    const streakElement = document.getElementById("streak");
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    const data = JSON.parse(localStorage.getItem("streakData") || "{}");
+    if (data.lastDate !== today) {
+      const last = new Date(data.lastDate || today);
+      const diff = Math.floor((now - last) / 86400000);
+      if (diff === 1) data.streak = (data.streak || 0) + 1;
+      else data.streak = 1;
+      data.lastDate = today;
+    }
+    localStorage.setItem("streakData", JSON.stringify(data));
+    streakElement.textContent = "🔥 Streak: " + (data.streak || 1) + " Tage";
+  </script>
+</body>
+</html>
