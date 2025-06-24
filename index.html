@@ -1,122 +1,331 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Findr - Profil</title>
-  <style>
-    body {
-      background-color: #111;
-      color: #fff;
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    .logo {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .logo img {
-      width: 200px;
-    }
-    .search-bar {
-      text-align: center;
-      margin: 20px;
-    }
-    .search-bar input {
-      padding: 10px;
-      width: 300px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: none;
-    }
-    .search-bar button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #3c3;
-      color: white;
-      border: none;
-      border-radius: 5px;
-    }
-    .container {
-      display: flex;
-      justify-content: center;
-      margin: 20px;
-    }
-    .profile, .history {
-      background-color: #222;
-      padding: 20px;
-      border-radius: 10px;
-      margin: 10px;
-    }
-    .profile img {
-      width: 120px;
-      height: 240px;
-    }
-    .button {
-      background-color: #3c3;
-      padding: 10px;
-      margin-top: 10px;
-      display: inline-block;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .status {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .status label {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .streak {
-      margin-top: 10px;
-      font-size: 18px;
-      color: #ff9933;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Profil - Findr (mit Streak)</title>
+<style>
+  body {
+    margin: 0; font-family: "Minecraft", monospace, sans-serif;
+    background: #121212;
+    color: #ccc;
+  }
+  header {
+    background: #222;
+    padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    height: 40px;
+  }
+  .search-container input {
+    padding: 0.5rem;
+    width: 200px;
+    border-radius: 3px;
+    border: none;
+    font-size: 1rem;
+  }
+  .search-container button {
+    background: #4caf50;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  .search-container button:hover {
+    background: #66bb6a;
+  }
+  .container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: #1e1e1e;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #33cc33aa;
+  }
+  h2#playerName {
+    font-family: "Minecraft", monospace;
+    font-size: 2.5rem;
+    color: #33cc33;
+    margin-bottom: 0.5rem;
+    text-shadow:
+      0 0 6px #33cc33,
+      0 0 12px #33cc33;
+  }
+  .skin-preview {
+    width: 150px;
+    height: 300px;
+    background: #222;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    box-shadow:
+      inset 0 0 10px #33cc33aa,
+      0 0 20px #33cc33aa;
+  }
+  .views {
+    margin-top: 0.5rem;
+    color: #8f8f8f;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .status-section {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .status-item {
+    background: #222;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow:
+      0 0 6px #33cc33aa;
+    font-weight: bold;
+    color: #33cc33;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 1.1rem;
+    text-shadow:
+      0 0 4px #33cc33,
+      0 0 8px #33cc33;
+  }
+  .status-item span.status-indicator {
+    background: #111;
+    padding: 0.2rem 0.7rem;
+    border-radius: 12px;
+    box-shadow:
+      0 0 10px #33cc33aa;
+    font-weight: normal;
+    color: #adebad;
+  }
+  .status-item.scammer {
+    color: #e74c3c;
+    text-shadow:
+      0 0 4px #e74c3c,
+      0 0 8px #e74c3c;
+  }
+  .status-item.mm {
+    color: #3498db;
+    text-shadow:
+      0 0 4px #3498db,
+      0 0 8px #3498db;
+  }
+  .status-item.streak {
+    color: #f39c12;
+    text-shadow:
+      0 0 4px #f39c12,
+      0 0 8px #f39c12;
+  }
+  .verification-notification {
+    margin-top: 1.5rem;
+    background: #333300;
+    padding: 1rem;
+    border-radius: 8px;
+    color: #eeff88;
+    font-weight: bold;
+    box-shadow:
+      0 0 10px #eeff88aa;
+  }
+  .message-area {
+    margin-top: 2rem;
+    background: #222;
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow:
+      0 0 15px #33cc33aa;
+  }
+  .name-history {
+    margin-top: 2rem;
+    background: #222;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow:
+      0 0 15px #33cc33aa;
+  }
+  footer {
+    margin-top: 3rem;
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    padding: 1rem 0;
+  }
+  .tooltip {
+    position: relative;
+  }
+  .tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #eee;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    box-shadow: 0 0 6px #33cc33aa;
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+</style>
 </head>
 <body>
-  <div class="logo">
-    <img src="findr_logo.png" alt="Findr Logo">
+<header>
+  <a href="/"><img src="https://i.ibb.co/k0TcbnJ/minecraft-title-8.png" alt="Logo" class="logo" /></a>
+  <div class="search-container">
+    <input type="text" placeholder="Minecraft-Namen..." id="playerInput" maxlength="16" />
+    <button onclick="searchPlayer()">Suchen</button>
   </div>
-  <div class="search-bar">
-    <input type="text" placeholder="Minecraft-Namen suchen...">
-    <button>Suchen</button>
-  </div>
-  <div class="container">
-    <div class="profile">
-      <img id="skin" src="skins/CuzImjasoon.png" alt="Skin">
-      <h2>CuzImjasoon</h2>
-      <div class="streak" id="streak">🔥 Streak: ...</div>
-      <div class="status">
-        <label><input type="checkbox"> Scammer</label>
-        <label><input type="checkbox"> MM</label>
-      </div>
-      <div class="button">Profil verifizieren</div>
-      <input type="text" placeholder="Nachrichten durchsuchen..." style="margin-top:10px; width:100%;">
+</header>
+
+<div class="container">
+  <h2 id="playerName">Spielername</h2>
+  <div class="skin-preview" id="skinContainer"></div>
+  <div class="views">👁️ <span id="viewCount">0</span> Profilaufrufe</div>
+
+  <div class="status-section">
+    <div class="status-item scammer">
+      Scammer:
+      <span id="scammerStatus" class="status-indicator">Wird geprüft...</span>
     </div>
-    <div class="history">
-      <h3>Frühere Namen</h3>
-      <p>Keine Namenshistorie verfügbar</p>
+    <div class="status-item mm">
+      Middleman:
+      <span id="mmStatus" class="status-indicator">Wird geprüft...</span>
+    </div>
+    <div class="status-item streak">
+      Streak:
+      <span id="streakStatus" class="status-indicator">Lädt...</span>
     </div>
   </div>
-  <script>
-    const streakElement = document.getElementById("streak");
-    const now = new Date();
-    const today = now.toISOString().split("T")[0];
-    const data = JSON.parse(localStorage.getItem("streakData") || "{}");
-    if (data.lastDate !== today) {
-      const last = new Date(data.lastDate || today);
-      const diff = Math.floor((now - last) / 86400000);
-      if (diff === 1) data.streak = (data.streak || 0) + 1;
-      else data.streak = 1;
-      data.lastDate = today;
+
+  <div class="verification-notification" id="verificationNotification" style="display:none;">
+    Bist du <span id="playerNameVerify">Spielername</span>? <a href="/findr/verify">Profil verifizieren</a>
+  </div>
+
+  <div class="message-area">
+    <div class="info-text">Cloud-Nachrichten (live geladen):</div>
+    <div id="virtualScroller" style="height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 1rem;">
+      <div id="playerMessage"></div>
+    </div>
+  </div>
+
+  <div class="name-history">
+    <h3>Frühere Namen</h3>
+    <div class="info-text">Nur sichtbar ab erster Cloud-Nachricht</div>
+    <ul id="nameHistoryList"></ul>
+  </div>
+</div>
+
+<footer>© 2025 zeppelino.de - <a href="/impressum">Impressum</a> | <a href="/datenschutz">Datenschutz</a></footer>
+
+<script>
+  // Simuliere API Calls mit Promises
+  function fetchScammerStatus(playerName) {
+    // Beispiel: Simulierte Daten (In Echt: fetch() zu externer API)
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // zufällig true/false
+        const isScammer = Math.random() < 0.1;
+        resolve(isScammer);
+      }, 600);
+    });
+  }
+
+  function fetchMMStatus(playerName) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const isMM = Math.random() < 0.15;
+        resolve(isMM);
+      }, 700);
+    });
+  }
+
+  function fetchStreak(playerName) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // Simuliere 0 bis 20 Tage Streak
+        const streakDays = Math.floor(Math.random() * 21);
+        resolve(streakDays);
+      }, 800);
+    });
+  }
+
+  function updateSkin(playerName) {
+    const skinContainer = document.getElementById("skinContainer");
+    // Setze Minecraft Skin-Render als Bild (für einfachheit)
+    skinContainer.innerHTML = `<img src="https://crafatar.com/renders/body/${playerName}?size=150&overlay" alt="Skin von ${playerName}" style="width:150px; height:300px; border-radius:6px; box-shadow: 0 0 15px #33cc33aa;">`;
+  }
+
+  function searchPlayer() {
+    const playerName = document.getElementById("playerInput").value.trim();
+    if (!playerName) {
+      alert("Bitte gib einen Minecraft-Namen ein.");
+      return;
     }
-    localStorage.setItem("streakData", JSON.stringify(data));
-    streakElement.textContent = "🔥 Streak: " + (data.streak || 1) + " Tage";
-  </script>
+
+    // UI Reset & Anzeige
+    document.getElementById("playerName").textContent = playerName;
+    document.getElementById("playerNameVerify").textContent = playerName;
+    document.getElementById("viewCount").textContent = "0";
+    document.getElementById("scammerStatus").textContent = "Wird geprüft...";
+    document.getElementById("mmStatus").textContent = "Wird geprüft...";
+    document.getElementById("streakStatus").textContent = "Lädt...";
+    document.getElementById("verificationNotification").style.display = "none";
+    document.getElementById("playerMessage").innerHTML = "";
+    document.getElementById("nameHistoryList").innerHTML = "";
+    updateSkin(playerName);
+
+    // Scammer-Status laden
+    fetchScammerStatus(playerName).then((isScammer) => {
+      const el = document.getElementById("scammerStatus");
+      if (isScammer) {
+        el.textContent = "Scammer!";
+        el.style.color = "#e74c3c";
+        el.style.textShadow = "0 0 6px #e74c3c";
+      } else {
+        el.textContent = "Sauber";
+        el.style.color = "#33cc33";
+        el.style.textShadow = "0 0 6px #33cc33";
+      }
+    });
+
+    // Middleman-Status laden
+    fetchMMStatus(playerName).then((isMM) => {
+      const el = document.getElementById("mmStatus");
+      if (isMM) {
+        el.textContent = "Middleman";
+        el.style.color = "#3498db";
+        el.style.textShadow = "0 0 6px #3498db";
+      } else {
+        el.textContent = "Kein MM";
+        el.style.color = "#33cc33";
+        el.style.textShadow = "0 0 6px #33cc33";
+      }
+    });
+
+    // Streak laden
+    fetchStreak(playerName).then((days) => {
+      const el = document.getElementById("streakStatus");
+      if (days === 0) {
+        el.textContent = "Keine Streak";
+        el.style.color = "#888";
+        el.style.textShadow = "none";
+      } else {
+        el.textContent = `🔥 ${days} Tag${days > 1 ? "e" : ""}`;
+        el.style.color = "#f39c12";
+        el.style.textShadow = "0 0 8px #f39c12";
+      }
+    });
+  }
+</script>
 </body>
 </html>
